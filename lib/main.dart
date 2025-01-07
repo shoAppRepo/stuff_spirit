@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stuff_spirit/colors.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,7 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'SoulMate',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Color(0xFFFFF9E6)),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'SoulMate'),
@@ -35,7 +36,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFFF9E6), // 温かみのある薄い黄色背景
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -65,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
               margin: const EdgeInsets.only(top: 30),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFFFFD966), // 温かみのある黄色
+                  backgroundColor: MyColors.warmYellow, // 温かみのある黄色
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(30), // 丸みを帯びたデザイン
                   ),
