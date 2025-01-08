@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:stuff_spirit/colors.dart';
+import 'package:stuff_spirit/db/database_helper.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized(); // 必要なバインディングを初期化
+
+  // データベースの初期化
+  final dbHelper = DatabaseHelper();
+  await dbHelper.database;
+
   runApp(const MyApp());
 }
 
