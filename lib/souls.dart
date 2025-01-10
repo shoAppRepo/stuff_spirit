@@ -57,22 +57,22 @@ class _SoulsPageState extends State<SoulsPage> {
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   ClipRRect(
                     borderRadius: const BorderRadius.vertical(
                       top: Radius.circular(16),
                     ),
-                    child: Image.network(
+                    child: Image.asset(
                       item['icon_url']!,
-                      height: 100,
+                      height: 50,
                       fit: BoxFit.cover,
                     ),
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      item['title']!,
+                      item['name']!,
                       style: const TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,

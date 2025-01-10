@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:stuff_spirit/colors.dart';
 import 'package:stuff_spirit/db/database_helper.dart';
+import 'package:stuff_spirit/souls.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized(); // 必要なバインディングを初期化
 
   // データベースの初期化
   final dbHelper = DatabaseHelper();
-  await dbHelper.database;
+  await dbHelper.deleteAllData();
+  await dbHelper.insertTestData();
 
   runApp(const MyApp());
 }
@@ -84,7 +86,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   elevation: 8,
                 ),
                 onPressed: () {
-                  // ボタンが押された時の処理
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => SoulsPage(),
+                    ),
+                  );
                 },
                 child: const Text(
                   'Look into the Souls',
