@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:stuff_spirit/db/database_helper.dart';
 
 class AddSoulPage extends StatefulWidget {
   @override
@@ -7,6 +8,7 @@ class AddSoulPage extends StatefulWidget {
 
 class _AddSoulPageState extends State<AddSoulPage> {
   final _nameController = TextEditingController();
+  final _nfcController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -28,19 +30,22 @@ class _AddSoulPageState extends State<AddSoulPage> {
                 labelText: 'Name',
               ),
             ),
-            // NFCタグを読み込んでIDを取得するボタン
-            Container(
-              margin: const EdgeInsets.only(top: 20.0),
-              child: ElevatedButton(
-                onPressed: () {
-                },
-                child: const Text('Read NFC Tag'),
+            TextField(
+              controller: _nfcController,
+              decoration: const InputDecoration(
+                labelText: 'NFC ID',
               ),
             ),
             Container(
               margin: const EdgeInsets.only(top: 20.0),
               child: ElevatedButton(
                 onPressed: () {
+                  DatabaseHelper.instance.insertSoul({
+                    'name': _nameController.text,
+                    'nfc_id': _nfcController.text,
+                  });
+
+                  Navigator.pop(context);
                 },
                 child: const Text('Add Soul'),
               ),

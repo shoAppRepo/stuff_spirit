@@ -10,7 +10,7 @@ void main() async {
   // データベースの初期化
   final dbHelper = DatabaseHelper();
   await dbHelper.database;
-  await dbHelper.insertTestData();
+  // await dbHelper.insertTestData();
 
   runApp(const MyApp());
 }

@@ -20,9 +20,7 @@ class DatabaseHelper {
   Future<Database> _initDatabase() async {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, 'stuff_spirit.db');
-    // print('db path: $path');
-
-    await deleteDatabase(path);
+    print('db path: $path');
 
     return await openDatabase(
       path,
@@ -93,5 +91,10 @@ class DatabaseHelper {
   Future<List<Map<String, dynamic>>> getAllSouls() async {
     final db = await database;
     return await db.query('souls');
+  }
+
+  Future<int> insertSoul(Map<String, dynamic> row) async {
+    final db = await database;
+    return await db.insert('souls', row);
   }
 }

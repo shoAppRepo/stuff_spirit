@@ -8,23 +8,24 @@ class SoulsPage extends StatefulWidget {
 }
 
 class _SoulsPageState extends State<SoulsPage> {
-  List<Map<String, dynamic>> spirits = [];
+  List<Map<String, dynamic>> souls = [];
 
   @override
   void initState() {
     super.initState();
-    fetchSouls();
   }
 
   Future<void> fetchSouls() async {
     final data = await DatabaseHelper.instance.getAllSouls();
     setState(() {
-      spirits = data;
+      souls = data;
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    fetchSouls();
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Select Soul'),
@@ -48,9 +49,9 @@ class _SoulsPageState extends State<SoulsPage> {
             crossAxisSpacing: 16,
             mainAxisSpacing: 16,
           ),
-          itemCount: spirits.length,
+          itemCount: souls.length,
           itemBuilder: (context, index) {
-            final item = spirits[index];
+            final item = souls[index];
             return Card(
               color: Colors.yellow[100],
               shape: RoundedRectangleBorder(
@@ -59,16 +60,17 @@ class _SoulsPageState extends State<SoulsPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  ClipRRect(
-                    borderRadius: const BorderRadius.vertical(
-                      top: Radius.circular(16),
+                  if (item['icon_url'] != null)
+                    ClipRRect(
+                      borderRadius: const BorderRadius.vertical(
+                        top: Radius.circular(16),
+                      ),
+                      child: Image.asset(
+                        item['icon_url'],
+                        height: 50,
+                        fit: BoxFit.cover,
+                      ),
                     ),
-                    child: Image.asset(
-                      item['icon_url']!,
-                      height: 50,
-                      fit: BoxFit.cover,
-                    ),
-                  ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
