@@ -31,9 +31,8 @@ class _SoulsPageState extends State<SoulsPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Select Soul'),
+        title: const Text('Your SoulMates'),
         centerTitle: true,
-        backgroundColor: Colors.white,
         foregroundColor: Colors.black,
         automaticallyImplyLeading: false,
         elevation: 0,
