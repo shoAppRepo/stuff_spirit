@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stuff_spirit/colors.dart';
 import 'package:stuff_spirit/db/database_helper.dart';
+import 'package:stuff_spirit/routes.dart';
 import 'package:stuff_spirit/souls.dart';
 
 void main() async {
@@ -8,8 +9,7 @@ void main() async {
 
   // データベースの初期化
   final dbHelper = DatabaseHelper();
-  await dbHelper.deleteAllData();
-  await dbHelper.insertTestData();
+  await dbHelper.database;
 
   runApp(const MyApp());
 }
@@ -25,8 +25,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Color(0xFFFFF9E6)),
         useMaterial3: true,
+        fontFamily: 'Amatic',
       ),
       home: const MyHomePage(title: 'SoulMate'),
+      routes: Routes.routes,
     );
   }
 }
