@@ -56,6 +56,10 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
+  fonts:
+    - family: Amatic
+      fonts:
+        - asset: assets/fonts/Amatic_SC/AmaticSC-Bold.ttf
   assets:
     - assets/images/bear.png
     - assets/images/souls/icon1.png

@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Color(0xFFFFF9E6)),
         useMaterial3: true,
+        fontFamily: 'Amatic',
       ),
       home: const MyHomePage(title: 'SoulMate'),
       routes: Routes.routes,
