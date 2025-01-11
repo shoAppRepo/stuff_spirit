@@ -8,7 +8,7 @@ void main() async {
 
   // データベースの初期化
   final dbHelper = DatabaseHelper();
-  await dbHelper.deleteAllData();
+  await dbHelper.database;
   await dbHelper.insertTestData();
 
   runApp(const MyApp());

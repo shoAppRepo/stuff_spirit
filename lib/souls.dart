@@ -13,11 +13,11 @@ class _SoulsPageState extends State<SoulsPage> {
   @override
   void initState() {
     super.initState();
-    fetchSpirits();
+    fetchSouls();
   }
 
-  Future<void> fetchSpirits() async {
-    final data = await DatabaseHelper.instance.getAllSpirits();
+  Future<void> fetchSouls() async {
+    final data = await DatabaseHelper.instance.getAllSouls();
     setState(() {
       spirits = data;
     });

@@ -56,8 +56,8 @@ dev_dependencies:
 flutter:
   assets:
     - assets/images/bear.png
-    - assets/images/spirits/icon1.png
-    - assets/images/spirits/icon2.png
+    - assets/images/souls/icon1.png
+    - assets/images/souls/icon2.png
     - assets/images/photos/photo1.png
     - assets/images/photos/photo2.png
 
