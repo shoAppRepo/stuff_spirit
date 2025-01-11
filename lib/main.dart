@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stuff_spirit/colors.dart';
 import 'package:stuff_spirit/db/database_helper.dart';
+import 'package:stuff_spirit/routes.dart';
 import 'package:stuff_spirit/souls.dart';
 
 void main() async {
@@ -27,6 +28,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'SoulMate'),
+      routes: Routes.routes,
     );
   }
 }

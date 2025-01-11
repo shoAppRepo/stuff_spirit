@@ -87,7 +87,9 @@ class _SoulsPageState extends State<SoulsPage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.pushNamed(context, '/add_soul');
+        },
         backgroundColor: MyColors.warmYellow,
         child: const Icon(Icons.add, color: Colors.black),
       ),
