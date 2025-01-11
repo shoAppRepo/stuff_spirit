@@ -20,7 +20,9 @@ class DatabaseHelper {
   Future<Database> _initDatabase() async {
     final dbPath = await getDatabasesPath();
     final path = join(dbPath, 'stuff_spirit.db');
-    print('db path: $path');
+    // print('db path: $path');
+
+    await deleteDatabase(path);
 
     return await openDatabase(
       path,

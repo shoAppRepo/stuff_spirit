@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:stuff_spirit/colors.dart';
 import 'package:stuff_spirit/db/database_helper.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:path/path.dart';
 
 class AddSoulPage extends StatefulWidget {
+  const AddSoulPage({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _AddSoulPageState createState() => _AddSoulPageState();
 }
 
@@ -38,60 +42,75 @@ class _AddSoulPageState extends State<AddSoulPage> {
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Add Soul'),
         centerTitle: true,
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
         elevation: 0,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextField(
               controller: _nfcController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'NFC ID',
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey.shade300),
+                ),
               ),
             ),
+            const SizedBox(height: 16.0),
             TextField(
               controller: _nameController,
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 labelText: 'Name',
+                enabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Colors.grey.shade300),
+                ),
               ),
             ),
-            TextField(
-              controller: _imageController,
-              decoration: const InputDecoration(
-                labelText: 'Image Path',
+            const SizedBox(height: 16.0),
+            GestureDetector(
+              onTap: _pickImage, // 画像選択処理を実行
+              child: AbsorbPointer(
+                child: TextField(
+                  controller: _imageController,
+                  decoration: InputDecoration(
+                    labelText: 'Icon',
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.grey.shade300),
+                    ),
+                  ),
+                  readOnly: true, // 画像のパスはユーザーが編集しないようにする
+                ),
               ),
-              readOnly: true, // 画像のパスはユーザーが編集しないようにする
             ),
-            Container(
-              margin: const EdgeInsets.only(top: 20.0),
-              child: ElevatedButton(
-                onPressed: _pickImage, // 画像選択ボタン
-                child: const Text('Pick Image'),
-              ),
-            ),
-            Container(
-              margin: const EdgeInsets.only(top: 20.0),
-              child: ElevatedButton(
-                onPressed: () {
-                  DatabaseHelper.instance.insertSoul({
-                    'name': _nameController.text,
-                    'nfc_id': _nfcController.text,
-                    'icon_url': _imageController.text,
-                  });
+            const SizedBox(height: 20.0),
+            ElevatedButton(
+              onPressed: () {
+                DatabaseHelper.instance.insertSoul({
+                  'name': _nameController.text,
+                  'nfc_id': _nfcController.text,
+                  'icon_url': _imageController.text,
+                });
 
-                  Navigator.pop(context);
-                },
-                child: const Text('Add Soul'),
+                Navigator.pop(context);
+              },
+              style: ElevatedButton.styleFrom(
+                backgroundColor: MyColors.warmYellow,
+                padding: const EdgeInsets.symmetric(vertical: 14.0, horizontal: 24.0),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.0),
+                ),
+              ),
+              child: const Text(
+                'Add Soul',
+                style: TextStyle(fontSize: 16.0),
               ),
             ),
           ],

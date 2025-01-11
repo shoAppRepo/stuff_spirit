@@ -3,7 +3,10 @@ import 'package:stuff_spirit/colors.dart';
 import 'package:stuff_spirit/db/database_helper.dart';
 
 class SoulsPage extends StatefulWidget {
+  const SoulsPage({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _SoulsPageState createState() => _SoulsPageState();
 }
 
