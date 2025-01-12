@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stuff_spirit/colors.dart';
 import 'package:stuff_spirit/db/database_helper.dart';
+import 'package:stuff_spirit/soul_detail.dart';
 
 class SoulsPage extends StatefulWidget {
   const SoulsPage({super.key});
@@ -54,37 +55,47 @@ class _SoulsPageState extends State<SoulsPage> {
           itemCount: souls.length,
           itemBuilder: (context, index) {
             final item = souls[index];
-            return Card(
-              color: Colors.yellow[100],
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  if (item['icon_url'] != null)
-                    ClipRRect(
-                      borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(16),
-                      ),
-                      child: Image.asset(
-                        item['icon_url'],
-                        height: 50,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      item['name']!,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 16,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
+            return GestureDetector(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => SoulDetailPage(soul: item),
                   ),
-                ],
+                );
+              },
+              child: Card(
+                color: Colors.yellow[100],
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    if (item['icon_url'] != null)
+                      ClipRRect(
+                        borderRadius: const BorderRadius.vertical(
+                          top: Radius.circular(16),
+                        ),
+                        child: Image.asset(
+                          item['icon_url'],
+                          height: 50,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        item['name']!,
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             );
           },
