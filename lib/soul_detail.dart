@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:stuff_spirit/colors.dart';
 
 class SoulDetailPage extends StatelessWidget {
   final Map<String, dynamic> soul;
@@ -9,11 +10,20 @@ class SoulDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFFFF9E6), // 背景色
       appBar: AppBar(
-        title: Text(soul['name']),
+        title: Text(
+          soul['name'],
+          style: const TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
+        ),
         centerTitle: true,
-        foregroundColor: Colors.black,
+        backgroundColor: Colors.transparent,
         elevation: 0,
+        foregroundColor: Colors.black,
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -24,14 +34,32 @@ class SoulDetailPage extends StatelessWidget {
               Center(
                 child: CircleAvatar(
                   radius: 100,
-                  backgroundImage: Image.asset(soul['icon_url']).image,
+                  backgroundColor:  MyColors.warmYellow, // 優しい黄色の背景
+                  child: ClipOval(
+                    child: Image.asset(
+                      soul['icon_url'],
+                      fit: BoxFit.cover,
+                      width: 190,
+                      height: 190,
+                    ),
+                  ),
                 ),
               ),
-            const SizedBox(height: 100),
+            const SizedBox(height: 50),
+            const SizedBox(height: 20),
             SizedBox(
               height: 300,
               child: RadarChart(
                 RadarChartData(
+                  radarShape: RadarShape.polygon,
+                  radarBorderData: const BorderSide(
+                    color: MyColors.warmYellow, // 線の色
+                  ),
+                  titleTextStyle: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black,
+                  ),
                   getTitle: (index, angle) {
                     switch (index) {
                       case 0:
@@ -50,7 +78,8 @@ class SoulDetailPage extends StatelessWidget {
                   },
                   dataSets: [
                     RadarDataSet(
-                      borderColor: Colors.yellow,
+                      borderColor:  MyColors.warmYellow,
+                      fillColor:  MyColors.warmYellow.withOpacity(0.5),
                       dataEntries: [
                         RadarEntry(value: 4),
                         RadarEntry(value: 3),
@@ -62,7 +91,8 @@ class SoulDetailPage extends StatelessWidget {
                   ],
                 ),
               ),
-            )
+            ),
+            const Spacer(),
           ],
         ),
       ),
