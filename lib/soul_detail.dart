@@ -12,6 +12,7 @@ class SoulDetailPage extends StatelessWidget {
       height: 300,
       child: RadarChart(
         RadarChartData(
+          radarShape: RadarShape.polygon,
           radarBorderData: const BorderSide(
             color: MyColors.warmYellow, // 線の色
           ),
@@ -19,6 +20,10 @@ class SoulDetailPage extends StatelessWidget {
             fontSize: 20,
             fontWeight: FontWeight.w500,
             color: Colors.black,
+          ),
+          tickCount: 3, // 表示する数値の数
+          tickBorderData: const BorderSide(
+            width: 1,
           ),
           getTitle: (index, angle) {
             switch (index) {
