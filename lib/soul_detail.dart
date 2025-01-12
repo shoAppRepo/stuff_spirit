@@ -7,6 +7,53 @@ class SoulDetailPage extends StatelessWidget {
 
   const SoulDetailPage({super.key, required this.soul});
 
+  Widget buildRadarChart() {
+    return SizedBox(
+      height: 300,
+      child: RadarChart(
+        RadarChartData(
+          radarBorderData: const BorderSide(
+            color: MyColors.warmYellow, // 線の色
+          ),
+          titleTextStyle: const TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.w500,
+            color: Colors.black,
+          ),
+          getTitle: (index, angle) {
+            switch (index) {
+              case 0:
+                return RadarChartTitle(text: 'Memories');
+              case 1:
+                return RadarChartTitle(text: 'Emotions');
+              case 2:
+                return RadarChartTitle(text: 'Places');
+              case 3:
+                return RadarChartTitle(text: 'Photos');
+              case 4:
+                return RadarChartTitle(text: 'Time');
+              default:
+                return RadarChartTitle(text: '');
+            }
+          },
+          dataSets: [
+            RadarDataSet(
+              borderColor:  MyColors.warmYellow,
+              fillColor:  MyColors.warmYellow.withOpacity(0.5),
+              dataEntries: [
+                RadarEntry(value: 4),
+                RadarEntry(value: 3),
+                RadarEntry(value: 2),
+                RadarEntry(value: 5),
+                RadarEntry(value: 4),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -49,48 +96,7 @@ class SoulDetailPage extends StatelessWidget {
             const SizedBox(height: 20),
             SizedBox(
               height: 300,
-              child: RadarChart(
-                RadarChartData(
-                  radarShape: RadarShape.polygon,
-                  radarBorderData: const BorderSide(
-                    color: MyColors.warmYellow, // 線の色
-                  ),
-                  titleTextStyle: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black,
-                  ),
-                  getTitle: (index, angle) {
-                    switch (index) {
-                      case 0:
-                        return RadarChartTitle(text: 'Memories');
-                      case 1:
-                        return RadarChartTitle(text: 'Emotions');
-                      case 2:
-                        return RadarChartTitle(text: 'Places');
-                      case 3:
-                        return RadarChartTitle(text: 'Photos');
-                      case 4:
-                        return RadarChartTitle(text: 'Time');
-                      default:
-                        return RadarChartTitle(text: '');
-                    }
-                  },
-                  dataSets: [
-                    RadarDataSet(
-                      borderColor:  MyColors.warmYellow,
-                      fillColor:  MyColors.warmYellow.withOpacity(0.5),
-                      dataEntries: [
-                        RadarEntry(value: 4),
-                        RadarEntry(value: 3),
-                        RadarEntry(value: 2),
-                        RadarEntry(value: 5),
-                        RadarEntry(value: 4),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
+              child: buildRadarChart(),
             ),
             const Spacer(),
           ],
