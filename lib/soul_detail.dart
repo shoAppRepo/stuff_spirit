@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:stuff_spirit/colors.dart';
 
 class SoulDetailPage extends StatelessWidget {
@@ -59,6 +60,31 @@ class SoulDetailPage extends StatelessWidget {
     );
   }
 
+  Future<void> _pickImage() async {
+    final ImagePicker _picker = ImagePicker();
+    final XFile? image = await _picker.pickImage(source: ImageSource.camera);
+
+    if (image != null) {
+      // Handle the selected image
+      print('Image path: ${image.path}');
+    }
+  }
+
+  Widget buildCameraButton() {
+    return ElevatedButton(
+      onPressed: _pickImage,
+      style: ElevatedButton.styleFrom(
+        foregroundColor: Colors.black,
+        backgroundColor: MyColors.warmYellow,
+      ),
+      child: const Text(
+        'Take a Photo',
+        style: TextStyle(fontSize: 20), // Adjust the font size as needed
+      ),
+    );
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,13 +123,15 @@ class SoulDetailPage extends StatelessWidget {
                   ),
                 ),
               ),
-            const SizedBox(height: 50),
-            const SizedBox(height: 20),
+            const SizedBox(height: 70),
             SizedBox(
               height: 300,
               child: buildRadarChart(),
             ),
-            const Spacer(),
+            const SizedBox(height: 70),
+            Center(
+              child: buildCameraButton(),
+            ),
           ],
         ),
       ),
