@@ -4,8 +4,9 @@
 <dict>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We need access to your photo library to pick images.</string>
+
 	<key>NSCameraUsageDescription</key>
-	<string>We need access to your camera to take pictures.</string>
+	<string>このアプリでは、思い出の記録のためカメラを使用します。</string>
 
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
