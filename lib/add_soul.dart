@@ -35,10 +35,12 @@ class _AddSoulPageState extends State<AddSoulPage> {
       await File(image.path).copy(newImage.path);
 
       // 画像のパスをコントローラにセット
-      setState(() {
-        _imagePath = imagePath;
-        _imageController.text = _imagePath; // コントローラに格納
-      });
+      if (mounted) {
+        setState(() {
+          _imagePath = imagePath;
+          _imageController.text = _imagePath; // コントローラに格納
+        });
+      }
     }
   }
 
