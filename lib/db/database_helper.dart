@@ -22,13 +22,12 @@ class DatabaseHelper {
     final path = join(dbPath, 'stuff_spirit.db');
     // print('db path: $path');
 
-    await deleteDatabase(path);
+    // await deleteDatabase(path);
 
     return await openDatabase(
       path,
       version: 2,
       onCreate: _onCreate,
-      onUpgrade: _onUpgrade,
     );
   }
 
@@ -37,11 +36,9 @@ class DatabaseHelper {
     await db.execute('''
       CREATE TABLE photos (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        photo TEXT NOT NULL,
-        emotion_id INTEGER,
-        spirit_id INTEGER,
-        FOREIGN KEY (emotion_id) REFERENCES emotions (id),
-        FOREIGN KEY (spirit_id) REFERENCES souls (id)
+        photo_url TEXT NOT NULL,
+        soul_id INTEGER,
+        FOREIGN KEY (soul_id) REFERENCES souls (id)
       )
     ''');
 
@@ -50,7 +47,6 @@ class DatabaseHelper {
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         name TEXT NOT NULL,
         nfc_id TEXT NOT NULL,
-        icon TEXT,
         icon_url TEXT
       )
     ''');
@@ -58,33 +54,28 @@ class DatabaseHelper {
     await db.execute('''
       CREATE TABLE emotions (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        type TEXT NOT NULL,
-        spirit_id INTEGER,
-        FOREIGN KEY (spirit_id) REFERENCES souls (id)
+        type TEXT NOT NULL
+      )
+    ''');
+
+    await db.execute('''
+      CREATE TABLE user_emotions (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        emotion_id INTEGER,
+        soul_id INTEGER,
+        FOREIGN KEY (soul_id) REFERENCES souls (id),
+        FOREIGN KEY (emotion_id) REFERENCES emotions (id)
       )
     ''');
   }
 
-  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
-    await db.execute('ALTER TABLE souls ADD COLUMN icon_url TEXT');
-  }
-
   Future<void> insertTestData() async {
     final db = await database;
-    // souls テーブルのデータ
-    await db.insert('souls', {'name': 'Spirit A', 'nfc_id': 'NFC001', 'icon_url': 'assets/images/souls/icon1.png'});
-    await db.insert('souls', {'name': 'Spirit B', 'nfc_id': 'NFC002', 'icon_url': 'assets/images/souls/icon2.png'});
 
-    // emotions テーブルのデータ
-    await db.insert('emotions', {'type': 'Happy', 'spirit_id': 1});
-    await db.insert('emotions', {'type': 'Sad', 'spirit_id': 2});
-
-    // photos テーブルのデータ
-    await db.insert('photos', {'photo': 'assets/images/phots/photo1.png', 'emotion_id': 1, 'spirit_id': 1});
-    await db.insert('photos', {'photo': 'assets/images/photos/photo2.png', 'emotion_id': 2, 'spirit_id': 2});
+    await db.insert('emotions', {'type': 'Happy'});
+    await db.insert('emotions', {'type': 'Sad'});
   }
 
-  // 必要に応じてデータ取得関数を追加
   Future<List<Map<String, dynamic>>> getPhotos() async {
     final db = await database;
     return await db.query('photos');
