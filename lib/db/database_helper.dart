@@ -1,102 +1,63 @@
-import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
+import 'package:drift/drift.dart';
+import 'package:drift/native.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:path/path.dart' as p;
+import 'dart:io';
 
-class DatabaseHelper {
-  static final DatabaseHelper instance = DatabaseHelper._privateConstructor();
+part 'database_helper.g.dart';
 
-  static Database? _database;
+@DriftDatabase(tables: [Photos, Souls, Emotions, UserEmotions])
+class DatabaseHelper extends _$DatabaseHelper {
+  DatabaseHelper() : super(_openConnection());
 
-  DatabaseHelper._privateConstructor();
+  @override
+  int get schemaVersion => 1;
 
-
-  factory DatabaseHelper() => instance;
-
-  Future<Database> get database async {
-    if (_database != null) return _database!;
-    _database = await _initDatabase();
-    return _database!;
+  Future<int> addSoul(SoulsCompanion soul) async {
+    return await into(souls).insert(soul);
   }
 
-  Future<Database> _initDatabase() async {
-    final dbPath = await getDatabasesPath();
-    final path = join(dbPath, 'stuff_spirit.db');
-    // print('db path: $path');
-
-    await deleteDatabase(path);
-
-    return await openDatabase(
-      path,
-      version: 2,
-      onCreate: _onCreate,
-      onUpgrade: _onUpgrade,
-    );
+  Future<int> addPhoto(PhotosCompanion photo) async {
+    return await into(photos).insert(photo);
   }
 
-  Future<void> _onCreate(Database db, int version) async {
-    // テーブル作成
-    await db.execute('''
-      CREATE TABLE photos (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        photo TEXT NOT NULL,
-        emotion_id INTEGER,
-        spirit_id INTEGER,
-        FOREIGN KEY (emotion_id) REFERENCES emotions (id),
-        FOREIGN KEY (spirit_id) REFERENCES souls (id)
-      )
-    ''');
-
-    await db.execute('''
-      CREATE TABLE souls (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT NOT NULL,
-        nfc_id TEXT NOT NULL,
-        icon TEXT,
-        icon_url TEXT
-      )
-    ''');
-
-    await db.execute('''
-      CREATE TABLE emotions (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        type TEXT NOT NULL,
-        spirit_id INTEGER,
-        FOREIGN KEY (spirit_id) REFERENCES souls (id)
-      )
-    ''');
+  Future<List<Soul>> getAllSouls() async {
+    return await select(souls).get();
   }
+}
 
-  Future<void> _onUpgrade(Database db, int oldVersion, int newVersion) async {
-    await db.execute('ALTER TABLE souls ADD COLUMN icon_url TEXT');
-  }
+LazyDatabase _openConnection() {
+  return LazyDatabase(() async {
+    final dbFolder = await getApplicationDocumentsDirectory();
+    final file = File(p.join(dbFolder.path, 'stuff_spirit.db'));
+    return NativeDatabase(file);
+  });
+}
 
-  Future<void> insertTestData() async {
-    final db = await database;
-    // souls テーブルのデータ
-    await db.insert('souls', {'name': 'Spirit A', 'nfc_id': 'NFC001', 'icon_url': 'assets/images/souls/icon1.png'});
-    await db.insert('souls', {'name': 'Spirit B', 'nfc_id': 'NFC002', 'icon_url': 'assets/images/souls/icon2.png'});
+@DataClassName('Photo')
+class Photos extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get photoUrl => text().withLength(min: 1, max: 255)();
+  IntColumn get soulId => integer().customConstraint('REFERENCES souls(id)')();
+}
 
-    // emotions テーブルのデータ
-    await db.insert('emotions', {'type': 'Happy', 'spirit_id': 1});
-    await db.insert('emotions', {'type': 'Sad', 'spirit_id': 2});
+@DataClassName('Soul')
+class Souls extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get name => text().withLength(min: 1, max: 255)();
+  TextColumn get nfcId => text().withLength(min: 1, max: 255)();
+  TextColumn get iconUrl => text().withLength(min: 1, max: 255)();
+}
 
-    // photos テーブルのデータ
-    await db.insert('photos', {'photo': 'assets/images/phots/photo1.png', 'emotion_id': 1, 'spirit_id': 1});
-    await db.insert('photos', {'photo': 'assets/images/photos/photo2.png', 'emotion_id': 2, 'spirit_id': 2});
-  }
+@DataClassName('Emotion')
+class Emotions extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get type => text().withLength(min: 1, max: 255)();
+}
 
-  // 必要に応じてデータ取得関数を追加
-  Future<List<Map<String, dynamic>>> getPhotos() async {
-    final db = await database;
-    return await db.query('photos');
-  }
-
-  Future<List<Map<String, dynamic>>> getAllSouls() async {
-    final db = await database;
-    return await db.query('souls');
-  }
-
-  Future<int> insertSoul(Map<String, dynamic> row) async {
-    final db = await database;
-    return await db.insert('souls', row);
-  }
+@DataClassName('UserEmotion')
+class UserEmotions extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get emotionId => integer().customConstraint('REFERENCES emotions(id)')();
+  IntColumn get soulId => integer().customConstraint('REFERENCES souls(id)')();
 }
