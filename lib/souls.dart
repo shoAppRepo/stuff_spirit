@@ -12,7 +12,7 @@ class SoulsPage extends StatefulWidget {
 }
 
 class _SoulsPageState extends State<SoulsPage> {
-  List<Map<String, dynamic>> souls = [];
+  List<Soul> souls = [];
 
   @override
   void initState() {
@@ -20,7 +20,7 @@ class _SoulsPageState extends State<SoulsPage> {
   }
 
   Future<void> fetchSouls() async {
-    final data = await DatabaseHelper.instance.getAllSouls();
+    final data = await DatabaseHelper().getAllSouls();
     setState(() {
       souls = data;
     });
@@ -72,13 +72,13 @@ class _SoulsPageState extends State<SoulsPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    if (item['icon_url'] != null)
+                    if (item.iconUrl != null)
                       ClipRRect(
                         borderRadius: const BorderRadius.vertical(
                           top: Radius.circular(16),
                         ),
                         child: Image.asset(
-                          item['icon_url'],
+                          item.iconUrl,
                           height: 50,
                           fit: BoxFit.cover,
                         ),
@@ -86,7 +86,7 @@ class _SoulsPageState extends State<SoulsPage> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        item['name']!,
+                        item.name,
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 16,
@@ -116,10 +116,11 @@ class _SoulsPageState extends State<SoulsPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              // IconButton(
-              //   icon: const Icon(Icons.share),
-              //   onPressed: () {},
-              // ),
+              IconButton(
+                icon: const Icon(Icons.share),
+                onPressed: () {
+                },
+              ),
             ],
           ),
         ),

@@ -40,6 +40,10 @@ dependencies:
   cupertino_icons: ^1.0.8
   nfc_manager: ^3.5.0
   fl_chart: ^0.70.1
+  drift: ^2.23.1
+  build_runner: ^2.4.14
+  sqlite3_flutter_libs: ^0.5.28
+  drift_dev: ^2.23.1
 
 dev_dependencies:
   flutter_test:

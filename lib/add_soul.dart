@@ -5,6 +5,8 @@ import 'package:stuff_spirit/db/database_helper.dart';
 import 'package:path_provider/path_provider.dart';
 import 'dart:io';
 import 'package:path/path.dart';
+// material.dartとdriftの両方にColumnクラスがあるため
+import 'package:drift/drift.dart' as drift;
 
 class AddSoulPage extends StatefulWidget {
   const AddSoulPage({super.key});
@@ -95,11 +97,12 @@ class _AddSoulPageState extends State<AddSoulPage> {
             const SizedBox(height: 20.0),
             ElevatedButton(
               onPressed: () {
-                DatabaseHelper.instance.insertSoul({
-                  'name': _nameController.text,
-                  'nfc_id': _nfcController.text,
-                  'icon_url': _imageController.text,
-                });
+                final soul = SoulsCompanion(
+                  name: drift.Value(_nameController.text),
+                  nfcId: drift.Value(_nfcController.text),
+                  iconUrl: drift.Value(_imageController.text),
+                );
+                DatabaseHelper().addSoul(soul);
 
                 Navigator.pop(context);
               },

@@ -4,12 +4,12 @@ import 'package:stuff_spirit/db/database_helper.dart';
 import 'package:stuff_spirit/routes.dart';
 import 'package:stuff_spirit/souls.dart';
 
-void main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized(); // 必要なバインディングを初期化
 
   // データベースの初期化
+  // ignore: unused_local_variable
   final dbHelper = DatabaseHelper();
-  await dbHelper.database;
 
   runApp(const MyApp());
 }

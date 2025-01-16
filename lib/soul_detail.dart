@@ -1,10 +1,15 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:stuff_spirit/colors.dart';
+import 'package:stuff_spirit/db/database_helper.dart';
 
 class SoulDetailPage extends StatelessWidget {
-  final Map<String, dynamic> soul;
+  final Soul soul;
 
   const SoulDetailPage({super.key, required this.soul});
 
@@ -65,8 +70,20 @@ class SoulDetailPage extends StatelessWidget {
     final XFile? image = await _picker.pickImage(source: ImageSource.camera);
 
     if (image != null) {
-      // Handle the selected image
-      print('Image path: ${image.path}');
+      // アプリのディレクトリに画像をコピー
+      final directory = await getApplicationDocumentsDirectory();
+      // 一時的な画像のパス
+      final imagePath = join(directory.path, basename(image.path));
+      final File newImage = File(imagePath);
+      // 画像の永続化
+      await File(image.path).copy(newImage.path);
+
+      await DatabaseHelper().addPhoto(
+        PhotosCompanion.insert(
+          photoUrl: imagePath,
+          soulId: soul.id,
+        ),
+      );
     }
   }
 
@@ -79,7 +96,7 @@ class SoulDetailPage extends StatelessWidget {
       ),
       child: const Text(
         'Take a Photo',
-        style: TextStyle(fontSize: 20), // Adjust the font size as needed
+        style: TextStyle(fontSize: 20),
       ),
     );
   }
@@ -88,10 +105,10 @@ class SoulDetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFFFF9E6), // 背景色
+      backgroundColor: const Color(0xFFFFF9E6),
       appBar: AppBar(
         title: Text(
-          soul['name'],
+          soul.name,
           style: const TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.bold,
@@ -108,14 +125,13 @@ class SoulDetailPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (soul['icon_url'] != null)
-              Center(
+            Center(
                 child: CircleAvatar(
                   radius: 100,
-                  backgroundColor:  MyColors.warmYellow, // 優しい黄色の背景
+                  backgroundColor:  MyColors.warmYellow,
                   child: ClipOval(
                     child: Image.asset(
-                      soul['icon_url'],
+                      soul.iconUrl,
                       fit: BoxFit.cover,
                       width: 190,
                       height: 190,
