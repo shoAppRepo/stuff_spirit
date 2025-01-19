@@ -72,17 +72,16 @@ class _SoulsPageState extends State<SoulsPage> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    if (item.iconUrl != null)
-                      ClipRRect(
-                        borderRadius: const BorderRadius.vertical(
-                          top: Radius.circular(16),
-                        ),
-                        child: Image.asset(
-                          item.iconUrl,
-                          height: 50,
-                          fit: BoxFit.cover,
-                        ),
+                    ClipRRect(
+                      borderRadius: const BorderRadius.vertical(
+                        top: Radius.circular(16),
                       ),
+                      child: Image.asset(
+                        item.iconUrl,
+                        height: 50,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
