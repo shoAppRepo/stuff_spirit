@@ -50,8 +50,8 @@ class SoulDetailPage extends StatelessWidget {
           },
           dataSets: [
             RadarDataSet(
-              borderColor:  MyColors.warmYellow,
-              fillColor:  MyColors.warmYellow.withOpacity(0.5),
+              borderColor: MyColors.warmYellow,
+              fillColor: MyColors.warmYellow.withOpacity(0.5),
               dataEntries: [
                 RadarEntry(value: 4),
                 RadarEntry(value: 3),
@@ -102,7 +102,6 @@ class SoulDetailPage extends StatelessWidget {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -127,19 +126,19 @@ class SoulDetailPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
-                child: CircleAvatar(
-                  radius: 100,
-                  backgroundColor:  MyColors.warmYellow,
-                  child: ClipOval(
-                    child: Image.asset(
-                      soul.iconUrl,
-                      fit: BoxFit.cover,
-                      width: 190,
-                      height: 190,
-                    ),
+              child: CircleAvatar(
+                radius: 100,
+                backgroundColor: MyColors.warmYellow,
+                child: ClipOval(
+                  child: Image.asset(
+                    soul.iconUrl,
+                    fit: BoxFit.cover,
+                    width: 190,
+                    height: 190,
                   ),
                 ),
               ),
+            ),
             const SizedBox(height: 70),
             SizedBox(
               height: 300,
@@ -155,7 +154,9 @@ class SoulDetailPage extends StatelessWidget {
                     onPressed: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => PhotoListPage(soulId: soul.id)),
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                PhotoListPage(soulId: soul.id)),
                       );
                     },
                     style: ElevatedButton.styleFrom(
@@ -170,7 +171,6 @@ class SoulDetailPage extends StatelessWidget {
                 ],
               ),
             ),
-
           ],
         ),
       ),
