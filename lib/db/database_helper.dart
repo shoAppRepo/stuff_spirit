@@ -8,7 +8,16 @@ part 'database_helper.g.dart';
 
 @DriftDatabase(tables: [Photos, Souls, Emotions, UserEmotions])
 class DatabaseHelper extends _$DatabaseHelper {
-  DatabaseHelper() : super(_openConnection());
+  // Singleton instance
+  static final DatabaseHelper _instance = DatabaseHelper._internal();
+
+  // Factory constructor to return the same instance
+  factory DatabaseHelper() {
+    return _instance;
+  }
+
+  // Private internal constructor
+  DatabaseHelper._internal() : super(_openConnection());
 
   @override
   int get schemaVersion => 1;
@@ -24,12 +33,17 @@ class DatabaseHelper extends _$DatabaseHelper {
   Future<List<Soul>> getAllSouls() async {
     return await select(souls).get();
   }
+
+  Future<List<Photo>> getPhotosBySoulId(int soulId) async {
+    return (select(photos)..where((tbl) => tbl.soulId.equals(soulId))).get();
+  }
 }
 
 LazyDatabase _openConnection() {
   return LazyDatabase(() async {
     final dbFolder = await getApplicationDocumentsDirectory();
     final file = File(p.join(dbFolder.path, 'stuff_spirit.db'));
+    print(file.path);
     return NativeDatabase(file);
   });
 }

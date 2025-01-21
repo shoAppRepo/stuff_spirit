@@ -7,6 +7,7 @@ import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:stuff_spirit/colors.dart';
 import 'package:stuff_spirit/db/database_helper.dart';
+import 'package:stuff_spirit/photo_list.dart';
 
 class SoulDetailPage extends StatelessWidget {
   final Soul soul;
@@ -49,8 +50,8 @@ class SoulDetailPage extends StatelessWidget {
           },
           dataSets: [
             RadarDataSet(
-              borderColor:  MyColors.warmYellow,
-              fillColor:  MyColors.warmYellow.withOpacity(0.5),
+              borderColor: MyColors.warmYellow,
+              fillColor: MyColors.warmYellow.withOpacity(0.5),
               dataEntries: [
                 RadarEntry(value: 4),
                 RadarEntry(value: 3),
@@ -101,7 +102,6 @@ class SoulDetailPage extends StatelessWidget {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -126,19 +126,19 @@ class SoulDetailPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Center(
-                child: CircleAvatar(
-                  radius: 100,
-                  backgroundColor:  MyColors.warmYellow,
-                  child: ClipOval(
-                    child: Image.asset(
-                      soul.iconUrl,
-                      fit: BoxFit.cover,
-                      width: 190,
-                      height: 190,
-                    ),
+              child: CircleAvatar(
+                radius: 100,
+                backgroundColor: MyColors.warmYellow,
+                child: ClipOval(
+                  child: Image.asset(
+                    soul.iconUrl,
+                    fit: BoxFit.cover,
+                    width: 190,
+                    height: 190,
                   ),
                 ),
               ),
+            ),
             const SizedBox(height: 70),
             SizedBox(
               height: 300,
@@ -146,7 +146,30 @@ class SoulDetailPage extends StatelessWidget {
             ),
             const SizedBox(height: 70),
             Center(
-              child: buildCameraButton(),
+              child: Column(
+                children: [
+                  buildCameraButton(),
+                  const SizedBox(height: 20),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                PhotoListPage(soulId: soul.id)),
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.black,
+                      backgroundColor: MyColors.warmYellow,
+                    ),
+                    child: const Text(
+                      'View Photos',
+                      style: TextStyle(fontSize: 20),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
