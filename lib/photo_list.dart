@@ -7,7 +7,7 @@ import 'package:stuff_spirit/db/database_helper.dart';
 class PhotoListPage extends StatefulWidget {
   final int soulId;
 
-  const PhotoListPage({Key? key, required this.soulId}) : super(key: key);
+  const PhotoListPage({super.key, required this.soulId});
 
   @override
   _PhotoListPageState createState() => _PhotoListPageState();
