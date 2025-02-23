@@ -44,6 +44,7 @@ dependencies:
   build_runner: ^2.4.14
   sqlite3_flutter_libs: ^0.5.28
   drift_dev: ^2.23.1
+  video_player: ^2.9.3
 
 dev_dependencies:
   flutter_test:
@@ -71,7 +72,7 @@ flutter:
     - assets/images/souls/icon2.png
     - assets/images/photos/photo1.png
     - assets/images/photos/photo2.png
-
+    - assets/videos/soul_transfer.MP4
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
